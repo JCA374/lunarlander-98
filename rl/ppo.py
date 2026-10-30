@@ -405,6 +405,8 @@ class Run:
                 self._overrides()
                 if st['it'] % 10 == 0:
                     self._save()
+                if a.snapshot_every and st['it'] % a.snapshot_every == 0:
+                    self._champion('snap')         # archive for selection on SELECT seeds later
         finally:
             self._save()
             json.dump(self.net.export(), open(os.path.join(self.dir, 'final.json'), 'w'))
@@ -504,6 +506,7 @@ def main():
     ap.add_argument('--threads', type=int, default=4)
     ap.add_argument('--seed', type=int, default=0)
     ap.add_argument('--resume-from', help='checkpoint.pt of another run to continue from')
+    ap.add_argument('--snapshot-every', type=int, default=0, help='save the policy every N iterations')
     ap.add_argument('--max-minutes', type=float, default=0)
     a = ap.parse_args()
     torch.set_num_threads(a.threads)
