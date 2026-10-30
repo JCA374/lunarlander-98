@@ -52,7 +52,7 @@ a { color: var(--accent); }
 .ev .t { color: var(--muted); font-size: .8rem; font-variant-numeric: tabular-nums; }
 .ev h4 { margin: 2px 0 4px; font-size: 1rem; }
 .ev p { margin: 4px 0; white-space: pre-wrap; }
-.ev img { width: 300px; max-width: 100%; border-radius: 8px; border: 1px solid var(--line); background: #000; }
+.ev img { width: 420px; max-width: 100%; border-radius: 8px; border: 1px solid var(--line); background: #000; }
 .tag { display: inline-block; font-size: .72rem; padding: 1px 8px; border-radius: 99px; margin-right: 6px;
   background: var(--code); color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
 .tag.stage_pass, .tag.goal_check { background: var(--good); color: var(--panel); }

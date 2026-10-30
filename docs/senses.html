@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lander 98: How it sees</title>
-<link rel="stylesheet" href="style.css?v=0bc8f9eb">
+<link rel="stylesheet" href="style.css?v=35b21ee0">
 </head>
 <body>
 <main>
@@ -26,6 +26,11 @@ identically when it is given nothing else.</p>
 <tr><td>15</td><td>above boulder</td><td>how far above the height it must keep while over the boulder</td></tr>
 <tr><td>16</td><td>clean wind estimate</td><td>the change in vx minus the known push of the action it just took (measured in calm air). Correlates <b>0.97</b> with the true wind. This sensor lifted the hand-written pilot from 75% to 86%</td></tr>
 </table></div>
+<div class="box"><h3>Seeing the wind in the replays</h3>
+<p>Every replay on this site draws the wind. The <b>blue arrow</b> is the true wind on this step, which the pilot never sees.
+The <b>orange arrow</b> is the pilot's clean wind estimate (input 16). The dust streaks drift with the true wind. When the two arrows
+agree, the pilot knows what is pushing it. In a test flight of the bake-off winner they correlated 0.94.</p>
+<img src="wind_gauge.png" alt="a frame with the wind gauge, wind dust, the boulder and the lander" style="max-width:100%;border-radius:8px"></div>
 <div class="box"><h3>Why a sensor can matter more than a bigger network</h3>
 <p>The wind in this game is a smooth random gust (a sum of sine waves with a random phase per flight) plus turbulence. The
 pilot cannot see it, only its effect: a sideways acceleration. But its own side engines and a tilted main engine also cause
