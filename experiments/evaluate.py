@@ -2,6 +2,9 @@
 
     python -m experiments.evaluate teacher:v2 --start 2000050000 --n 1000
 """
+import os
+for _v in ('OPENBLAS_NUM_THREADS', 'OMP_NUM_THREADS', 'MKL_NUM_THREADS'):
+    os.environ.setdefault(_v, '1')     # one BLAS thread per process: 8 workers x 8 threads overloaded the CPU (load 34)
 import argparse
 import collections
 import json

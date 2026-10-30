@@ -7,6 +7,9 @@ seeds (common random numbers). Fitness per flight = landed (1/0) + 0.002 x game 
 The mean moves along the rank-weighted perturbations (Adam). Every `check_every` generations the mean flies 200
 fresh CHECK seeds of the real task.
 """
+import os
+for _v in ('OPENBLAS_NUM_THREADS', 'OMP_NUM_THREADS', 'MKL_NUM_THREADS'):
+    os.environ.setdefault(_v, '1')     # one BLAS thread per process: 8 workers x 8 threads overloaded the CPU (load 34)
 import argparse
 import csv
 import json

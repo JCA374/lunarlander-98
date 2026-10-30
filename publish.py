@@ -156,8 +156,12 @@ def push():
     if subprocess.run(['git', 'diff', '--cached', '--quiet']).returncode == 0:
         return print('nothing to publish')
     subprocess.run(['git', 'commit', '-q', '-m', f'Site update {time.strftime("%Y-%m-%d %H:%M")}'], check=True)
-    subprocess.run(['git', 'pull', '-q', '--rebase', '--autostash'], check=False)
-    subprocess.run(['git', 'push', '-q'], check=False)
+    # No 'pull --rebase --autostash' before pushing: on 2026-10-30 21:34 its autostash failed to re-apply and silently
+    # reverted uncommitted code (rl/ppo.py, supervise.sh) for an hour. Only this laptop pushes; if a push is ever
+    # rejected, merge (works with a dirty tree, never stashes) and push again.
+    if subprocess.run(['git', 'push', '-q'], check=False).returncode != 0:
+        subprocess.run(['git', 'pull', '-q', '--no-rebase', '--no-edit'], check=False)
+        subprocess.run(['git', 'push', '-q'], check=False)
 
 
 if __name__ == '__main__':

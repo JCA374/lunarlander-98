@@ -14,6 +14,9 @@ Every `check_every` iterations the deterministic policy (argmax) flies `check_fl
 task (no help) and, if the stage's world differs, of the stage's world. Stage pass: the check passes and a second fresh
 block confirms it. SIGTERM: finish the iteration, checkpoint, exit. Resume: the same command.
 """
+import os
+for _v in ('OPENBLAS_NUM_THREADS', 'OMP_NUM_THREADS', 'MKL_NUM_THREADS'):
+    os.environ.setdefault(_v, '1')     # one BLAS thread per process: 8 workers x 8 threads overloaded the CPU (load 34)
 import argparse
 import csv
 import json
@@ -212,8 +215,11 @@ class Run:
         else:
             if a.init:
                 self.net.load_pi(json.load(open(a.init)))
+            if a.resume_from:          # continue another run's network + optimiser, with a fresh curriculum state
+                blob = torch.load(a.resume_from, weights_only=False)
+                self.net.load_state_dict(blob['net']); self.opt.load_state_dict(blob['opt'])
             self.state = {'it': 0, 'stage': 0, 'stage_it': 0, 'n_check': 0, 'steps': 0, 'best_goal': -1.0,
-                          'norm_done': bool(a.init), 'counters': None, 'done': False, 'hard': []}
+                          'norm_done': bool(a.init or a.resume_from), 'counters': None, 'done': False, 'hard': []}
             self._event('run_start', note=self.cur.get('note', ''), args=vars(a))
             self._event('stage_start', stage=self.stage()['name'], expect=self.stage().get('expect', ''))
 
@@ -360,6 +366,12 @@ class Run:
                 ramp_len = max(1, int(stg.get('ramp_frac', 0.6) * cap))
                 tt = st['stage_it'] / ramp_len if (stg.get('ramp') or stg.get('support')) else 1.0
                 world = stage_world(stg, tt)
+                for k in ('lr', 'ent'):            # per-stage learning rate / entropy bonus
+                    if k in stg and getattr(a, k) != stg[k]:
+                        setattr(a, k, stg[k])
+                        if k == 'lr':
+                            for g in self.opt.param_groups:
+                                g['lr'] = stg[k]
                 rw = stg.get('reward', {})
                 hard = {'seeds': st['hard'], 'p': stg.get('hard_p', 0.0)} if stg.get('hard_p') else None
                 obs, act, logp, rew, done, last, eps = self.rollout(world, rw, hard)
@@ -491,6 +503,7 @@ def main():
     ap.add_argument('--check-flights', type=int, default=200)
     ap.add_argument('--threads', type=int, default=4)
     ap.add_argument('--seed', type=int, default=0)
+    ap.add_argument('--resume-from', help='checkpoint.pt of another run to continue from')
     ap.add_argument('--max-minutes', type=float, default=0)
     a = ap.parse_args()
     torch.set_num_threads(a.threads)
