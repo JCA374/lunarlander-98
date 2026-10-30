@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lander 98: Lessons</title>
+<link rel="stylesheet" href="style.css?v=0bc8f9eb">
+</head>
+<body>
+<main>
+<h1>Lessons</h1>
+<p class="lede">What the earlier projects taught, and what this one adds. Newest additions at the top of each list.</p>
+<div class="box"><h3>From this project</h3><ul id="new">
+<li>The 2×128 behaviour clone of pilot v2 flies as well as the pilot (83.5% vs 85.9% on the same 1,000 flights): the warm start is real, not a conversion bug.</li>
+<li>Re-measured on 1,000 fresh flights with the fair boulder layout: pilot v1 72.2%, pilot v2 84.0%, the old clone 84.6%. The most common failure is coming to rest just <i>outside</i> the flags (6.6–6.9%), then crashes (4–5%) and boulder hits (3.5%).</li>
+</ul></div>
+<div class="box"><h3>From the NEAT project (lunarlander-curriculum)</h3><ul>
+<li>Sensing beats network size: the clean wind sensor lifted the pilot from 75% to 86%.</li>
+<li>Check that the task is fair: about 2% of boulder layouts were unwinnable until the layout was fixed.</li>
+<li>A warm start is only worth it if training doesn't destroy it: NEAT's mutations wrecked trained networks (children averaged 70.5% from an 86% parent).</li>
+<li>Few flights per evaluation make selection lucky: wind noise is large.</li>
+<li>Determinism and resume bugs cost the most time: test them first.</li>
+<li>Easy curriculum stages can make a strong agent forget: rehearse the real task.</li>
+<li>Pay for what you want (landings), not for a proxy (game score).</li>
+<li>Profile before rewriting: the physics was never the bottleneck.</li>
+</ul></div>
+</main>
+<script src="common.js?v=c88683ec"></script>
+</body></html>

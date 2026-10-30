@@ -1,0 +1,4 @@
+{"name": "bake_warm", "note": "Bake-off candidate B: PPO warm-started from the behaviour clone of pilot v2 (2x128, 83.5%), critic trained alone for 15 iterations first on the real task only. Reward: game score + 200 for resting between the flags, -100 off-pad rest, -100 timeout.",
+ "stages": [{"name": "real task", "world": {"boulder": true}, "cap": 100000, "pass": {"landed": 0.99},
+   "reward": {"landing_bonus": 200, "offpad_penalty": 100, "timeout_penalty": 100, "boulder_penalty": 0},
+   "expect": "Starts at ~84% and climbs, as gradients use every step of experience. Risk: the first updates damage the clone."}]}

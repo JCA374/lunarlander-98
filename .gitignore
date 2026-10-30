@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.log
+logs/
+voice/*/audio/*.wav
+voice/*/.cache/
+runs/*/checkpoint.*
+runs/test_*
+publish_loop.pid
+.pytest_cache/

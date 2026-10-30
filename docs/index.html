@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lander 98: Log</title>
+<meta name="description" content="Teaching a lunar lander to land 98% of flights in wind, turbulence and past a boulder. Live log.">
+<link rel="stylesheet" href="style.css?v=0bc8f9eb">
+</head>
+<body>
+<main>
+<header class="hero">
+  <h1>98% landings in wind, turbulence and past a boulder</h1>
+  <p class="lede">A small neural network flies Gymnasium's Lunar Lander in strong gusty wind (power 15), turbulence (1.5) and with a
+    boulder floating on the way down. <b>Goal: ≥ 98% landed between the flags on 1,000 unseen flights</b>, confirmed on a
+    second fresh 1,000. The previous project (NEAT) stalled at about 85%. This time the method is chosen by a measured bake-off.</p>
+  <p class="countdown" id="countdown"></p>
+  <p class="muted" id="updated"></p>
+</header>
+<section class="cards" id="cards"></section>
+<section>
+  <h2>Goal table</h2>
+  <p class="muted">Every agent measured on the real task, on seeds it never saw. The 95% interval is a Wilson interval.</p>
+  <div class="tablewrap"><table class="t" id="goaltable"></table></div>
+</section>
+<section>
+  <h2>Progress</h2>
+  <p class="muted">The current run. Orange dots: the policy (always its most likely action) on 200 fresh real-task flights.
+    Blue line: the share of its own training flights that landed (it explores, so this is lower). Dashed: the 98% goal.</p>
+  <div class="chartbox"><div class="h"><canvas id="chart"></canvas></div></div>
+  <p class="muted small" id="chartnote"></p>
+</section>
+<section>
+  <h2>Log <span class="muted small">newest first</span></h2>
+  <div id="log"></div>
+</section>
+</main>
+<footer>Updated automatically every 15 minutes. Numbers are measured, not estimated; "fresh" means seeds never used in training or selection.</footer>
+<script src="common.js?v=c88683ec"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="app.js?v=07e8495b"></script>
+</body>
+</html>

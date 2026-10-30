@@ -1,0 +1,1 @@
+{"name": "smoke", "stages": [{"name": "real task", "world": {"boulder": true}, "cap": 3, "pass": {"landed": 2}}]}

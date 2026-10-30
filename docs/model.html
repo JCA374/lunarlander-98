@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lander 98: The model</title>
+<link rel="stylesheet" href="style.css?v=0bc8f9eb">
+</head>
+<body>
+<main>
+<h1>The model</h1>
+<p class="lede">What the pilot is, how it learns, and how it changes over time. This page grows as the project goes on.</p>
+<div class="box"><h3>1. A pilot is a function from 16 numbers to 4 choices</h3>
+<p>Every 1/50 of a second the lander must choose one of four actions: do nothing, fire the left engine, fire the main engine,
+or fire the right engine. The pilot is a <b>neural network</b>: a function that takes the 16 input numbers and returns four
+scores, one per action. It fires the action with the highest score.</p>
+<p>The network here is a <i>multilayer perceptron</i> with two hidden layers of 128 units. Each unit computes a weighted sum
+of the numbers coming in, adds a bias, and squashes the result with <code>tanh</code> into −1…1. With 16 → 128 → 128 → 4 it
+has about 19,000 weights. Before the inputs go in, each one is shifted and scaled to roughly −1…1 (normalisation), using
+averages measured on real flights, so no input dominates just because of its units.</p>
+<pre>inputs (16) ──► 128 tanh units ──► 128 tanh units ──► 4 scores ──► pick the largest
+  x, y, vx, vy, angle, …, wind estimate           nothing / left / main / right</pre></div>
+<div class="box"><h3>2. Three ways to find good weights (the bake-off)</h3>
+<p><b>Copy a teacher (behaviour cloning).</b> Fly the hand-written pilot, record (inputs, its action) at every step, and train
+the network to predict the action, like a classifier. Then <i>DAgger</i>: let the student fly, and ask the teacher what it would
+have done in the states the student's own mistakes lead to. The copy reaches the teacher's level (83.5% vs 85.9% on the same
+1,000 flights) but not beyond it.</p>
+<p><b>Reinforcement learning (PPO).</b> The network outputs probabilities instead of a hard choice, so it can explore. After
+each batch of flights, every action is judged: did things go better or worse than expected after it? A second network, the
+<i>critic</i>, learns what "expected" is (the value of a state). Actions that turned out better than expected become a little
+more likely, worse ones a little less, and a clip keeps each update small (that is the "proximal" in PPO). It learns from every
+one of the hundreds of steps in a flight, not just from one number per flight.</p>
+<p><b>Evolution strategies (ES).</b> Make 40 slightly perturbed copies of the network, fly each on the same 32 flights, and move
+the weights toward the copies that landed more often. Simple and robust, but it only learns from one number per flight per copy.</p>
+<p>Which one is used is decided by a bake-off with the same CPU budget for each; see the Log.</p></div>
+<div class="box"><h3>3. What it is paid for</h3>
+<p>The game's own score already guides a lander: points for moving toward the pad and slowing down, small costs for firing
+engines, −100 for a crash, +100 for coming to rest. The old project found a trap here: the score also pays for saving fuel,
+so a pilot can earn <i>more</i> points while landing <i>less</i> often. So on top of the score this project pays +200 for
+coming to rest between the flags and −100 for coming to rest outside them or timing out. The goal measure itself is never
+the score: it is only "came to rest between the flags".</p></div>
+<div id="history"></div>
+</main>
+<script src="common.js?v=c88683ec"></script>
+</body></html>

@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lander 98: Curriculum</title>
+<link rel="stylesheet" href="style.css?v=0bc8f9eb">
+</head>
+<body>
+<main>
+<h1>Curriculum</h1>
+<p class="lede">Every run's stages: the world it flies, the reward it is paid, the check that ends the stage, the cap, and the
+outcome I expected, all written down <i>before</i> the stage starts. Checks always fly the real task with no help.</p>
+<div class="box"><h3>What the last project taught about curricula</h3>
+<p>Easy stages can <b>erase</b> a good starting agent: in the NEAT project a 90% agent fell to 52% after training in calm air,
+because the weights that read the wind sensor drift freely when the wind is zero. So when a run starts from a strong agent,
+every stage keeps 30–50% real-task flights (<i>rehearsal</i>) and every check flies the real task. From a weak start, a curriculum
+calm → steady push → gusts → turbulence → boulder works, with fading <i>training wheels</i> (a torque that pulls the lander
+upright and fades to zero). For the last few percent, the natural curriculum is <b>hard cases</b>: re-fly the seeds the agent
+fails on more often.</p></div>
+<div id="runs"></div>
+</main>
+<script src="common.js?v=c88683ec"></script>
+<script src="curriculum.js?v=eb80c90c"></script>
+</body></html>

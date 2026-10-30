@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lander 98: Speed</title>
+<link rel="stylesheet" href="style.css?v=0bc8f9eb">
+</head>
+<body>
+<main>
+<h1>Speed</h1>
+<p class="lede">The laptop, where the time goes, and what each optimisation bought, measured end to end.</p>
+<div class="box"><h3>The machine</h3>
+<div class="tablewrap"><table class="t">
+<tr><td>CPU</td><td>Intel Core i5-8250U, 4 cores / 8 threads, 1.6 GHz base</td></tr>
+<tr><td>Memory</td><td>7.6 GB RAM, 4 GB swap</td></tr>
+<tr><td>GPU</td><td>Intel UHD Graphics 620: no CUDA, so everything runs on the CPU</td></tr>
+<tr><td>Software</td><td>Python 3.12, PyTorch 2.15 (CPU), gymnasium 0.29.1 + Box2D, numpy 1.26</td></tr>
+</table></div>
+<p>Plan for a CPU: small networks, many flights in parallel (8 worker processes, one per thread), the network's forward
+pass done in numpy inside the workers, and the PPO update in PyTorch between batches.</p></div>
+<div class="box"><h3>First measurements (30 Oct)</h3>
+<div class="tablewrap"><table class="t">
+<tr><th>What</th><th>Speed</th></tr>
+<tr><td>Hand-written pilot, 8 processes, reference env</td><td>80 flights in 1.0 s (≈ 40,000 steps/s)</td></tr>
+<tr><td>PPO rollouts + update, 8 workers × 8 flights, 2×128 network</td><td>16,384 steps per 0.8 s iteration (≈ 20,000 steps/s, ≈ 70 M steps/hour)</td></tr>
+</table></div>
+<p>From the old project: per simulated step, Box2D itself took 1.5 µs of 117 µs; the rest was Python glue. A native,
+vectorised re-implementation is the big possible win, but only once the method works, and only for training: every check
+and the goal test stay in the reference env.</p></div>
+<div id="speedlog"></div>
+</main>
+<script src="common.js?v=c88683ec"></script>
+</body></html>
