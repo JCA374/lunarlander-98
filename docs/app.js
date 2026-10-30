@@ -7,7 +7,7 @@ function countdown(deadline) {
   tick(); setInterval(tick, 30000);
 }
 const NAMES = { baseline_teacher_v1: 'Hand-written pilot v1', baseline_teacher_v2: 'Hand-written pilot v2 (CMA-ES-tuned gains)',
-  baseline_models_seed_mlp16_json: 'Old clone of pilot v2 (16→24→4), NEAT seed' };
+  baseline_clone_mlp16: 'Old clone of pilot v2 (16→24→4), NEAT seed' };
 
 async function main() {
   const [status, stats, log] = await Promise.all([get('status.json'), get('stats.json'), get('log.json')]);
