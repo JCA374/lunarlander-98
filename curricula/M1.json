@@ -1,0 +1,12 @@
+{"name": "M1", "note": "Main run 1. The bake-off winner (PPO from a random 2x128 network, 45 min, 42 M steps, 91.4% on 500 shared analysis flights) continues: same network, same optimiser state. Stage 1 keeps learning on the real task (it was still improving). Stage 2: hard cases, 30% of flights re-fly real-task seeds it failed on recent checks (each check uses fresh seeds, so later checks stay clean). Stage 3: fine-tune with a lower learning rate and less exploration.",
+ "stages": [
+  {"name": "real task, keep learning", "world": {"boulder": true}, "cap": 5000, "pass": {"landed": 0.975},
+   "reward": {"landing_bonus": 200, "offpad_penalty": 100, "timeout_penalty": 100},
+   "expect": "The check average was still rising (90.8% at 26 M steps -> 93.8% at 39 M). Expect ~95% within 2 hours, boulder hits falling from ~5% to ~3%."},
+  {"name": "hard cases", "world": {"boulder": true}, "cap": 4000, "hard_p": 0.3, "pass": {"landed": 0.98},
+   "reward": {"landing_bonus": 200, "offpad_penalty": 100, "timeout_penalty": 100},
+   "expect": "The remaining failures are rare situations (mostly the boulder 1-2.5 m off centre). Seeing them 30% of the time instead of ~5% should lift them by 1-2 points."},
+  {"name": "fine-tune", "world": {"boulder": true}, "cap": 6000, "lr": 0.0001, "ent": 0.003, "pass": {"landed": 0.985},
+   "reward": {"landing_bonus": 200, "offpad_penalty": 100, "timeout_penalty": 100},
+   "expect": "Smaller, steadier steps: less noise in the policy, the last point or two."}
+ ]}
