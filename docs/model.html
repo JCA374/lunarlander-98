@@ -10,6 +10,10 @@
 <main>
 <h1>The model</h1>
 <p class="lede">What the pilot is, how it learns, and how it changes over time. This page grows as the project goes on.</p>
+<div class="box"><h3>Film: how the lander learned (the bake-off, explained)</h3>
+<p>About 13 minutes, narrated. Real flights with the wind drawn (blue: the true wind, hidden from the pilot; orange: the pilot's
+own estimate), the network firing live, the three training methods compared, and why each test exists.</p>
+<video controls preload="metadata" style="width:100%;border-radius:8px;background:#000" src="video/bakeoff.mp4"></video></div>
 <div class="box"><h3>1. A pilot is a function from 16 numbers to 4 choices</h3>
 <p>Every 1/50 of a second the lander must choose one of four actions: do nothing, fire the left engine, fire the main engine,
 or fire the right engine. The pilot is a <b>neural network</b>: a function that takes the 16 input numbers and returns four
