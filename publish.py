@@ -41,25 +41,22 @@ def read_jsonl(path):
 
 
 def replay_gif(policy_path, seed, out):
-    """One real-task flight of a saved policy as a small GIF (every 2nd frame, half size), boulder drawn."""
-    from PIL import Image, ImageDraw
-    from lander.env import GOAL_WORLD, run_episode, make_env, SCALE
+    """One real-task flight of a saved policy as a GIF (every 2nd frame), with the boulder, wind dust drifting with the
+    true wind, and a gauge: the true wind (blue, hidden from the pilot) vs the pilot's own estimate (orange)."""
+    from lander.env import GOAL_WORLD, run_episode, make_env
     from lander.policy import load_policy
+    from lander.viz import Painter
     pol = load_policy(policy_path)
     env = make_env('rgb_array')
     frames = []
+    painter = Painter(seed)
 
     def rec(f):
         if f.steps % 2:
             return
-        img = Image.fromarray(env.render())
-        if f.boulder:
-            bx, by, r = f.boulder
-            d = ImageDraw.Draw(img)
-            cx, cy, rr = bx * SCALE, 400 - by * SCALE, r * SCALE
-            d.ellipse([cx - rr, cy - rr, cx + rr, cy + rr], fill=(130, 115, 100), outline=(200, 190, 170), width=2)
-        frames.append(img.resize((300, 200)).convert('P', palette=Image.ADAPTIVE, colors=32))
+        frames.append(painter.paint(env, f).resize((420, 280)).convert('P', palette=Image.ADAPTIVE, colors=48))
 
+    from PIL import Image
     r = run_episode(lambda v, f: pol(v, None), seed, GOAL_WORLD, env=env, record=rec)
     env.close()
     frames += [frames[-1]] * 15
