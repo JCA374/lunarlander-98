@@ -1,0 +1,25 @@
+{
+ "name": "M2",
+ "note": "Main run 2 continues M1 (96.6% [95.3-97.6] on 1,000 fresh selection flights after 80 M steps). M1's curriculum ended too early: its 200+200-flight pass checks were passed by luck after many tries. M2 has one long stage that never ends by itself: hard cases (30% of flights re-fly real-task seeds failed on recent checks) with the fine-tune settings (learning rate 1e-4, entropy bonus 0.003). A snapshot every 100 iterations; champions are chosen afterwards on 1,000 selection flights, never on the checks.",
+ "stages": [
+  {
+   "name": "hard cases, fine-tune, no early stop",
+   "world": {
+    "boulder": true
+   },
+   "cap": 100000,
+   "hard_p": 0.3,
+   "lr": 0.0001,
+   "ent": 0.003,
+   "pass": {
+    "landed": 2
+   },
+   "reward": {
+    "landing_bonus": 200,
+    "offpad_penalty": 100,
+    "timeout_penalty": 100
+   },
+   "expect": "Hard cases took the checks from 92.7% to ~96.3% in 40 M steps. Expect a slower climb toward 97.5-98% over the night; remaining failures: boulder 1.7%, timeout 1.1%, crash 0.5%."
+  }
+ ]
+}
