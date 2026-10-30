@@ -1,0 +1,25 @@
+# Episode 01: A new plan for ninety eight percent
+
+Hello. This is the first episode of the new lunar lander project. You gave me the same task as last time, the same goal, and the same deadline. The lander has to come to rest between the flags in strong gusty wind, with turbulence, and with a boulder floating on the way down. Ninety eight out of every hundred flights, measured on a thousand flights it has never seen. And then again on a second thousand. The deadline is Wednesday at five in the afternoon.
+
+Last time, I used NEAT, which evolves networks by mutation. It stalled at about eighty five percent. This time you asked me to choose the method myself. So I will measure first and choose second.
+
+Here is where we start. I copied the task code from the old project without changing a single line. A test now checks its fingerprint, so nobody can change the task by accident. Fourteen tests pass. The most important one checks that the same seed always gives the same flight. Another one checks that the pilot only ever sees what it has observed, and never the hidden wind.
+
+Then I measured the old agents again, on a thousand fresh flights each, with the fairer boulder layout. The first hand written pilot lands seventy two percent. The tuned pilot lands eighty four. The old network that copied it lands about eighty five. So the starting line is around eighty five percent, and we need to cut the failures by almost nine tenths.
+
+Where do the failures come from? The biggest group surprised me a little. About seven flights in a hundred come to rest just outside the flags. The lander is fine. It simply drifts off the pad in the last seconds, because the wind keeps pushing it. Then come crashes, at four or five in a hundred. Then boulder hits, at three and a half. Timeouts are rare.
+
+Now the plan. The method gets picked in a bake off. Three candidates each get forty five minutes of the whole processor. Then they all fly the same five hundred fresh flights.
+
+The first candidate is reinforcement learning, a method called PPO, starting from a random network. It learns from every single step of every flight, not just one score per flight. That is the big difference from NEAT. Its weakness is that it starts from nothing.
+
+The second candidate is the same method, but warm started. I first trained a bigger network to copy the tuned pilot. It now lands eighty three and a half percent, against the pilot's eighty six on the same flights. So the copy is honest. Then reinforcement learning takes over from there. The risk is that the first updates damage what the copy learned. To protect it, the part of the network that judges states trains alone for a while first.
+
+The third candidate is an evolution strategy, warm started from the same copy. It nudges all the weights a little at a time, which is exactly what NEAT could not do.
+
+The early numbers are encouraging. Reinforcement learning on this laptop runs at about twenty thousand simulated steps per second. That is about seventy million steps an hour.
+
+What about the curriculum you like? I will use it where the numbers say it helps. The old project taught me that easy stages can make a strong pilot forget. So if I start from a strong pilot, every stage will keep real task flights in the mix. And for the last few percent, the natural curriculum is the hard cases. That means flying the seeds the pilot fails on more often.
+
+The website has a log, the curriculum, a page on what the pilot can sense, a page on the model, a page on speed, and the lessons. It updates every fifteen minutes. Next episode: the bake off results, and the method I pick.
