@@ -11,6 +11,12 @@
 <h1>Lessons</h1>
 <p class="lede">What the earlier projects taught, and what this one adds. Newest additions at the top of each list.</p>
 <div class="box"><h3>From this project</h3><ul id="new">
+<li><b>Goal met:</b> PPO from scratch, 98.8% and 98.4% on two untouched blocks of 1,000 test flights.</li>
+<li>The hard-case curriculum (30% of flights re-fly recently failed seeds) gave the biggest single gain: 92.7% → 96%+, boulder hits 5% → 2%.</li>
+<li>Learning from every step beats learning from one number per flight: PPO from scratch 91.4% after 45 minutes vs 83–88% for the warm-started alternatives.</li>
+<li>A confident copy is a cage: the behaviour clone barely explores, so RL from it barely improves.</li>
+<li>Stage passes on 200+200 flights are passed by luck after enough tries; pick champions on 1,000+ selection flights instead.</li>
+<li>Never let a finished curriculum stop a run silently (an idle hour), and never let a publisher autostash code (an hour of reverted files).</li>
 <li>The 2×128 behaviour clone of pilot v2 flies as well as the pilot (83.5% vs 85.9% on the same 1,000 flights): the warm start is real, not a conversion bug.</li>
 <li>Re-measured on 1,000 fresh flights with the fair boulder layout: pilot v1 72.2%, pilot v2 84.0%, the old clone 84.6%. The most common failure is coming to rest just <i>outside</i> the flags (6.6–6.9%), then crashes (4–5%) and boulder hits (3.5%).</li>
 </ul></div>

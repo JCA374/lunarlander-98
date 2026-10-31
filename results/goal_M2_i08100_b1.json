@@ -1,0 +1,40 @@
+{
+ "n": 1000,
+ "landed": 0.988,
+ "ci": [
+  0.9791425260718425,
+  0.9931224209078404
+ ],
+ "score": 274.0523106340378,
+ "outcomes": {
+  "landed": 988,
+  "timeout": 4,
+  "boulder": 8
+ },
+ "timeout": 0.004,
+ "offpad": 0.0,
+ "boulder": 0.008,
+ "crashed": 0.0,
+ "touch_speed": 0.25869449973106384,
+ "steps": 232.72,
+ "failed_seeds": [
+  2000000030,
+  2000000057,
+  2000000067,
+  2000000281,
+  2000000358,
+  2000000675,
+  2000000724,
+  2000000728,
+  2000000846,
+  2000000910,
+  2000000948,
+  2000000964
+ ],
+ "t": "2026-10-31 02:20:21",
+ "policy": "models/best/M2_i08100.json",
+ "start": 2000000000,
+ "block": 1,
+ "label": "M2 snapshot 8100 (PPO from scratch, 254 M steps in total) \u00b7 test block 1",
+ "note": "Chosen on 3,000 selection flights (98.5%). Reference gymnasium env, real task, no help."
+}

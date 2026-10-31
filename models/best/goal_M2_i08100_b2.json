@@ -1,0 +1,45 @@
+{
+ "n": 1000,
+ "landed": 0.984,
+ "ci": [
+  0.9741677180358003,
+  0.9901278441325737
+ ],
+ "score": 272.7649890292252,
+ "outcomes": {
+  "landed": 984,
+  "boulder": 9,
+  "timeout": 3,
+  "crashed": 4
+ },
+ "timeout": 0.003,
+ "offpad": 0.0,
+ "boulder": 0.009,
+ "crashed": 0.004,
+ "touch_speed": 0.2610012888908386,
+ "steps": 228.285,
+ "failed_seeds": [
+  2000010005,
+  2000010104,
+  2000010269,
+  2000010338,
+  2000010377,
+  2000010449,
+  2000010473,
+  2000010535,
+  2000010664,
+  2000010711,
+  2000010756,
+  2000010786,
+  2000010895,
+  2000010933,
+  2000010945,
+  2000010980
+ ],
+ "t": "2026-10-31 02:20:45",
+ "policy": "models/best/M2_i08100.json",
+ "start": 2000010000,
+ "block": 2,
+ "label": "M2 snapshot 8100 (PPO from scratch, 254 M steps in total) \u00b7 test block 2",
+ "note": "Confirmation on the second, fresh block of test seeds. Reference gymnasium env, real task, no help."
+}
