@@ -211,15 +211,22 @@ def flight_with_panel(frames, res, n, panel, label=None, title=None):
         yield c
 
 
-# 1 intro
+# 1 intro: several DIFFERENT flights in a row, each played once (never loop the same footage)
 def s_intro(n):
-    seed = find_seed(A_FINAL, 'landed', 3_000_777_000)
-    frames, _, res = fly(A_FINAL, seed)
+    clips, total, s = [], 0, 3_000_777_000
+    while total < n and len(clips) < 6:
+        s = find_seed(A_FINAL, 'landed', s + 1)
+        fr, _, res = fly(A_FINAL, s)
+        clips.append((fr, res))
+        total += len(fr) + 25                      # each clip ends with a 1 s hold on its outcome
+    seq = [(j, k) for j, (fr, _) in enumerate(clips) for k in range(len(fr) + 25)]
     for i in range(n):
+        j, k = seq[min(i, len(seq) - 1)]            # past the end: hold the last frame, don't restart
+        fr, res = clips[j]
         c = canvas(); d = ImageDraw.Draw(c)
-        c.paste(clip_frame(frames, res, i % (len(frames) + 40), len(frames) + 40, (900, 600)), (190, 100))
+        c.paste(clip_frame(fr, res, k, len(fr) + 25, (900, 600), f'flight {j + 1} of {len(clips)}'), (190, 100))
         t = min(1, i / 50)
-        col = tuple(int(BG[j] + (INK[j] - BG[j]) * t) for j in range(3))
+        col = tuple(int(BG[q] + (INK[q] - BG[q]) * t) for q in range(3))
         text(d, (190, 22), 'How the lander learned', 40, col, bold=True)
         text(d, (190, 70), 'wind 15 · turbulence 1.5 · a boulder · goal: 98% of 1,000 unseen flights', 20, MUTED)
         if i > n * 0.55:

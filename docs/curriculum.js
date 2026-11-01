@@ -8,10 +8,10 @@
       <p>${esc(c.note || '')}</p>` + c.stages.map((s, i) => {
       const passed = r.passed.includes(s.name);
       const cls = passed ? 'passed' : (i === stIdx && r.alive) ? 'current' : '';
-      const sup = s.support ? `<dt>Training wheels</dt><dd>upright torque ${s.support[0]} → ${s.support[1]} over the ramp, then off; checks fly without it</dd>` : '';
-      const hard = s.hard_p ? `<dt>Hard cases</dt><dd>${pct(s.hard_p, 0)} of flights re-fly real-task seeds the agent recently failed on a check</dd>` : '';
+      const sup = s.support ? `<dt>Training wheels</dt><dd>${esc(kv({ support: s.support }))}, then off; checks run without help</dd>` : '';
+      const hard = s.hard_p ? `<dt>Hard cases</dt><dd>${pct(s.hard_p, 0)} of episodes repeat situations the agent recently failed</dd>` : '';
       return `<div class="stage ${cls}"><div class="n">${i + 1}</div><div>
-        <h3>${esc(s.name)} <span class="muted small">· ${passed ? 'passed' : i === stIdx ? 'running' : i < stIdx ? 'done' : 'waiting'} · cap ${s.cap} iterations</span></h3>
+        <h3>${esc(s.name)} <span class="muted small">· ${passed ? 'passed' : i === stIdx ? 'running' : i < stIdx ? 'done' : 'waiting'} · cap ${s.cap}</span></h3>
         <dl><dt>World</dt><dd>${esc(worldText(s.world, s.ramp))}</dd>${sup}${hard}
         <dt>Reward</dt><dd>${esc(rewardText(s.reward))}</dd><dt>Pass</dt><dd>${esc(passText(s.pass))}</dd>
         <dt>Expected</dt><dd>${esc(s.expect || '')}</dd></dl></div></div>`;

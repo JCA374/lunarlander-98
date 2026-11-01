@@ -1,0 +1,22 @@
+{
+  "title": "Lander 98",
+  "icon": "🌙",
+  "repo": "JCA374/lunarlander-98",
+  "deadline": "2026-11-04T17:00:00+01:00",
+  "deadline_text": "Wednesday 4 November, 17:00",
+  "goal": {"metric": "landed", "target": 0.98, "label": "Landed",
+           "columns": [["offpad", "Off-pad"], ["crashed", "Crash"], ["boulder", "Boulder"], ["timeout", "Timeout"]]},
+  "goal_text": "on 1,000 unseen flights, then again on a second 1,000",
+  "names": {"baseline_teacher_v1": "Hand-written pilot v1", "baseline_teacher_v2": "Hand-written pilot v2 (CMA-ES-tuned gains)",
+            "baseline_clone_mlp16": "Old clone of pilot v2 (16→24→4), NEAT seed",
+            "bake_bake_A_ppo_scratch": "Bake-off A: PPO from scratch (45 min)", "bake_bake_B_ppo_warm": "Bake-off B: PPO from the clone (45 min)",
+            "bake_bake_C_es_warm": "Bake-off C: evolution strategy (45 min)", "bake_start_bc": "Bake-off start: the 2×128 clone"},
+  "chart": {"x": "steps", "x_scale": 1e-6, "x_label": "million simulated steps of experience", "y_label": "% landed",
+            "series": [{"key": "train_goal_landed", "label": "own training flights landed (it explores)", "style": "line", "color": "--accent"},
+                       {"key": "goal_landed", "label": "200 fresh real-task flights", "style": "both", "color": "--warn"}]},
+  "cards": [{"label": "Experience", "key": "steps", "fmt": "M", "sub": "simulated steps"}],
+  "alive_pattern": "^.venv/bin/python -m rl\\.\\w+ .*--run {run}( |$)",
+  "replay_seed": 3000777000,
+  "push_globs": ["runs/*/stats.csv", "runs/*/events.jsonl", "runs/*/curriculum.json", "runs/*/champions/*_goal.json",
+                 "runs/*/champions/*_passed.json", "runs/*/final.json"]
+}
