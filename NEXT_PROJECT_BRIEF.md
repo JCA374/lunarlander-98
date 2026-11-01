@@ -179,6 +179,10 @@ no usable GPU). It was enough because PPO needed only 254 M steps.
 
 ## 8. The homepage and the podcast
 
+- **Use the `ml-project-site` skill** (`~/.claude/skills/ml-project-site/`, `scripts/init.sh`): it sets up the whole site
+  below, including the **Play tab** (the newest NEAT champions on a fixed, selectable set of games). Implement its
+  `site_hooks.py` like `../lunarlander-98/site_hooks.py`. Clips and replays play once, never loop.
+
 - New public repo (suggested `JCA374/lunarlander-neat98`; **ask the user before creating it**), Pages from
   `main:/docs`. Deployment counts only when `gh api repos/<repo>/pages/builds/latest` says `built <sha>` and the pages
   return HTTP 200.
